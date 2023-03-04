@@ -20,15 +20,15 @@ const Navbar = ({ changeTheme }: NavbarProps) => {
       </div>
 
       <div className="navbar-end">
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li className="mx-4">
+            <li className="mx-4 max-sm:hidden">
               <Link to="/">Home</Link>
             </li>
-            <li className="mx-4">
+            <li className="min-md:mx-4">
               <Link to="/game">Game</Link>
             </li>
-            <li className="mx-4">
+            <li className="min-md:mx-4">
               <Link to="/leaderboard">Leaderboard</Link>
             </li>
           </ul>
