@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
+import Game from "./Components/Game";
 
 function App() {
   const [theme, setTheme] = useState("default");
@@ -12,15 +13,12 @@ function App() {
   };
 
   return (
-    <div
-      className="App bg-base-100 h-screen bg-clip-content"
-      data-theme={theme}
-    >
+    <div className="App bg-base-100 min-h-screen" data-theme={theme}>
       <Navbar changeTheme={changeTheme} />
       <section className="h-[92vh] home">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/game" element={<h1>Game page</h1>} />
+          <Route path="/game" element={<Game />} />
           <Route path="/leaderboard" element={<h1>Game page</h1>} />
         </Routes>
       </section>

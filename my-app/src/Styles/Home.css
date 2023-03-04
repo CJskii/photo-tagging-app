@@ -2,3 +2,9 @@
   background-image: url(../public/waldo-bg.png);
   background-size: cover;
 }
+
+@media (max: 425px) {
+  .home {
+    background-size: fill;
+  }
+}
