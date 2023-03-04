@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../Styles/Home.css";
 
 const Home = () => {
@@ -16,9 +17,11 @@ const Home = () => {
         <p className="text-black">
           Classic game implemented with React Typescript, Tailwind and Firebase
         </p>
-        <button className="btn bg-yellow-500 hover:bg-yellow-400 border-none">
-          Start playing
-        </button>
+        <Link to="/game">
+          <button className="btn bg-yellow-500 hover:bg-yellow-400 border-none hover:animate-bounce">
+            Start playing
+          </button>
+        </Link>
       </div>
     </div>
   );

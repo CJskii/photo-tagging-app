@@ -26,14 +26,14 @@ const Navbar = ({ changeTheme }: NavbarProps) => {
               <Link to="/">Home</Link>
             </li>
             <li className="mx-4">
-              <Link to="/products">Game</Link>
+              <Link to="/game">Game</Link>
             </li>
             <li className="mx-4">
-              <Link to="/contact">Leaderboard</Link>
+              <Link to="/leaderboard">Leaderboard</Link>
             </li>
           </ul>
         </div>
-        <Themes changeTheme={changeTheme} />
+        {/* <Themes changeTheme={changeTheme} /> */}
       </div>
     </div>
   );

@@ -17,11 +17,11 @@ function App() {
       data-theme={theme}
     >
       <Navbar changeTheme={changeTheme} />
-      <section className="h-[92vh]">
+      <section className="h-[92vh] home">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<h1>Products page</h1>} />
-          <Route path="/contact" element={<h1>Contact page</h1>} />
+          <Route path="/game" element={<h1>Game page</h1>} />
+          <Route path="/leaderboard" element={<h1>Game page</h1>} />
         </Routes>
       </section>
     </div>
