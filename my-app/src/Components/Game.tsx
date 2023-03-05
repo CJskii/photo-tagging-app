@@ -8,7 +8,7 @@ const Game = () => {
       <div className="lg:full gap-8 h-full flex justify-evenly flex-wrap">
         <div className="card bg-base-300 w-[300px] h-[300px] flex flex-col justify-start items-center p-4 gap-4">
           <h1 className="text-3xl">Level 1</h1>
-          <Link to="/game/level1">
+          <Link to="/level1">
             <img
               className="h-[216px] w-[268px] bg-base-100 rounded hover:scale-105 transition-transform cursor-pointer object-cover"
               src="/levels/level-1.jpg"
