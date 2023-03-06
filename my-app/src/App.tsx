@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App bg-base-100 min-h-screen" data-theme={theme}>
       <Navbar changeTheme={changeTheme} />
-      <section className="h-[92vh] home">
+      <section className="min-h-[92vh] home">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/game" element={<Game />} />
