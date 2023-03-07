@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import Home from "./Components/Home";
 import Game from "./Components/Game";
 import Leaderboard from "./Components/Leaderboard";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/level6" element={<Level6 />} /> */}
         </Routes>
       </section>
+      <Footer />
     </div>
   );
 }
