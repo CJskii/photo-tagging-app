@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PreviewIcons from "./PreviewIcons";
 import Time from "../Time";
 import RestartBtn from "../RestartBtn";
@@ -18,6 +18,29 @@ const Level1 = () => {
     { name: "wizard", render: true },
     { name: "wenda", render: false },
   ]);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    const coords = calculateClickCoords(e);
+  };
+
+  const calculateClickCoords = (e: React.MouseEvent<HTMLImageElement>) => {
+    const image = imageRef.current;
+    if (image) {
+      const rect = image.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const imageWidth = image.naturalWidth;
+      const imageHeight = image.naturalHeight;
+      const pixelX = (x / rect.width) * imageWidth;
+      const pixelY = (y / rect.height) * imageHeight;
+      console.log(
+        `Clicked at (${pixelX}, ${pixelY}) in image with size (${imageWidth}, ${imageHeight})`
+      );
+      return { x: pixelX, y: pixelY };
+      // validate
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-4 py-8 bg-primary">
@@ -37,8 +60,12 @@ const Level1 = () => {
         <Time />
       </div>
       <img
+        ref={imageRef}
         src="levels/level-1.jpg"
         className="rounded lg:w-[90vw] max-lg:p-2"
+        onClick={(e) => {
+          handleClick(e);
+        }}
       />
     </div>
   );
