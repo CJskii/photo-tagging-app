@@ -18,10 +18,17 @@ const Level1 = () => {
     { name: "wizard", render: true },
     { name: "wenda", render: false },
   ]);
+  const [showSelectionBox, setShowSelectionBox] = useState(false);
+  const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLImageElement>) => {
     const coords = calculateClickCoords(e);
+    setShowSelectionBox(!showSelectionBox);
+
+    if (coords) {
+      setClickCoords(coords);
+    }
   };
 
   const calculateClickCoords = (e: React.MouseEvent<HTMLImageElement>) => {
@@ -32,8 +39,8 @@ const Level1 = () => {
       const y = e.clientY - rect.top;
       const imageWidth = image.naturalWidth;
       const imageHeight = image.naturalHeight;
-      const pixelX = (x / rect.width) * imageWidth;
-      const pixelY = (y / rect.height) * imageHeight;
+      const pixelX = Math.round(Math.floor((x / rect.width) * imageWidth));
+      const pixelY = Math.round(Math.floor((y / rect.height) * imageHeight));
       console.log(
         `Clicked at (${pixelX}, ${pixelY}) in image with size (${imageWidth}, ${imageHeight})`
       );
@@ -59,14 +66,41 @@ const Level1 = () => {
         <RestartBtn />
         <Time />
       </div>
-      <img
-        ref={imageRef}
-        src="levels/level-1.jpg"
-        className="rounded lg:w-[90vw] max-lg:p-2"
-        onClick={(e) => {
-          handleClick(e);
-        }}
-      />
+      <div className="relative">
+        {showSelectionBox && (
+          <div
+            className="absolute bg-base-100 p-2 m-8 rounded"
+            style={{ top: `${clickCoords.y}px`, left: `${clickCoords.x}px` }}
+          >
+            {characters.map((char, index) => {
+              if (char.render)
+                return (
+                  <div
+                    key={index}
+                    className="flex justify-center items-center border-2 gap-2 rounded bg-base-200 hover:bg-secondary cursor-pointer my-2"
+                  >
+                    <img
+                      className="w-[50px] h-[50px] m-2"
+                      src={`/icons/${char.name}-transparent.png`}
+                      alt={`${char.name} transparent`}
+                    />
+                    <div className="pr-4">
+                      {char.name.charAt(0).toUpperCase() + char.name.slice(1)}
+                    </div>
+                  </div>
+                );
+            })}
+          </div>
+        )}
+        <img
+          ref={imageRef}
+          src="levels/level-1.jpg"
+          className="rounded lg:w-[90vw] max-lg:p-2"
+          onClick={(e) => {
+            handleClick(e);
+          }}
+        />
+      </div>
     </div>
   );
 };
