@@ -9,6 +9,11 @@ interface Props {
   render: boolean;
 }
 
+interface SelectionProps extends Props {
+  imageClickCoords: { x: number; y: number };
+  setShowSelectionBox: boolean;
+}
+
 const Level1 = () => {
   const [characters, setCharacters] = useState([
     {
@@ -22,6 +27,7 @@ const Level1 = () => {
   const [showSelectionBox, setShowSelectionBox] = useState(false);
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
   const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
+
   const imageRef = useRef<HTMLImageElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -69,13 +75,6 @@ const Level1 = () => {
     }
   };
 
-  const calculateCoords = (
-    e1?: React.MouseEvent<HTMLDivElement>,
-    e2?: React.MouseEvent<HTMLDivElement>,
-    divRef?: React.RefObject<HTMLDivElement>,
-    imageRef?: React.RefObject<HTMLImageElement>
-  ) => {};
-
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-4 py-8 bg-primary">
       <h1 className="text-5xl lg:pr-8">Level 1</h1>
@@ -103,7 +102,15 @@ const Level1 = () => {
             }}
           >
             {characters.map((char, index) => {
-              if (char.render) return <Selection key={index} {...char} />;
+              if (char.render)
+                return (
+                  <Selection
+                    key={index}
+                    {...char}
+                    imageClickCoords={imageClickCoords}
+                    setShowSelectionBox={setShowSelectionBox}
+                  />
+                );
             })}
           </div>
         )}
