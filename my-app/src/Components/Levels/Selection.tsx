@@ -9,7 +9,7 @@ interface Props {
 
 const Selection = (char: Props) => {
   const ref = useRef<HTMLDivElement>(null);
-  console.log(char);
+
   const handleClick = () => {
     let userSelection = ref.current?.textContent;
     const selectedCoords = char.imageClickCoords;

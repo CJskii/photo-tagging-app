@@ -3,6 +3,10 @@ import React, { useState, useRef, useEffect } from "react";
 import PreviewIcons from "./PreviewIcons";
 import Time from "../Time";
 import RestartBtn from "../RestartBtn";
+import {
+  calculateImageCoords,
+  calculateContainerCoords,
+} from "./HelperFunctions/CalculateCoords";
 
 interface Props {
   name: string;
@@ -43,36 +47,12 @@ const Level1 = () => {
 
   const getImageClickCoords = (e: React.MouseEvent<HTMLImageElement>) => {
     const image = imageRef.current;
-    if (image) {
-      const rect = image.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const imageWidth = image.naturalWidth;
-      const imageHeight = image.naturalHeight;
-      const pixelX = Math.round(Math.floor((x / rect.width) * imageWidth));
-      const pixelY = Math.round(Math.floor((y / rect.height) * imageHeight));
-      console.log(
-        `Clicked at (${pixelX}, ${pixelY}) in image with size (${imageWidth}, ${imageHeight})`
-      );
-      return { x: pixelX, y: pixelY };
-    }
+    if (image) return calculateImageCoords(image, e);
   };
 
   const getSelectionBoxCoords = (e: React.MouseEvent<HTMLDivElement>) => {
     const div = divRef.current;
-    if (div) {
-      const rect = div.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const divWidth = div.clientWidth;
-      const divHeight = div.clientHeight;
-      const pixelX = Math.round(Math.floor((x / rect.width) * divWidth));
-      const pixelY = Math.round(Math.floor((y / rect.height) * divHeight));
-      console.log(
-        `Clicked at (${pixelX}, ${pixelY}) in div with size (${divWidth}, ${divHeight})`
-      );
-      return { x: pixelX, y: pixelY };
-    }
+    if (div) return calculateContainerCoords(div, e);
   };
 
   return (
