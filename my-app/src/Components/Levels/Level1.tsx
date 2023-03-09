@@ -20,19 +20,22 @@ const Level1 = () => {
     { name: "wenda", render: false },
   ]);
   const [showSelectionBox, setShowSelectionBox] = useState(false);
-  const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 });
+  const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
+  const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLImageElement>) => {
-    const coords = calculateClickCoords(e);
-    setShowSelectionBox(!showSelectionBox);
-
-    if (coords) {
-      setClickCoords(coords);
+    const imageCoords = getImageClickCoords(e);
+    const containerCoords = getSelectionBoxCoords(e);
+    if (imageCoords && containerCoords) {
+      setImageClickCoords(imageCoords);
+      setSelectionBoxCoords(containerCoords);
+      setShowSelectionBox(!showSelectionBox);
     }
   };
 
-  const calculateClickCoords = (e: React.MouseEvent<HTMLImageElement>) => {
+  const getImageClickCoords = (e: React.MouseEvent<HTMLImageElement>) => {
     const image = imageRef.current;
     if (image) {
       const rect = image.getBoundingClientRect();
@@ -48,6 +51,30 @@ const Level1 = () => {
       return { x: pixelX, y: pixelY };
     }
   };
+
+  const getSelectionBoxCoords = (e: React.MouseEvent<HTMLDivElement>) => {
+    const div = divRef.current;
+    if (div) {
+      const rect = div.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const divWidth = div.clientWidth;
+      const divHeight = div.clientHeight;
+      const pixelX = Math.round(Math.floor((x / rect.width) * divWidth));
+      const pixelY = Math.round(Math.floor((y / rect.height) * divHeight));
+      console.log(
+        `Clicked at (${pixelX}, ${pixelY}) in div with size (${divWidth}, ${divHeight})`
+      );
+      return { x: pixelX, y: pixelY };
+    }
+  };
+
+  const calculateCoords = (
+    e1?: React.MouseEvent<HTMLDivElement>,
+    e2?: React.MouseEvent<HTMLDivElement>,
+    divRef?: React.RefObject<HTMLDivElement>,
+    imageRef?: React.RefObject<HTMLImageElement>
+  ) => {};
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-4 py-8 bg-primary">
@@ -66,11 +93,14 @@ const Level1 = () => {
         <RestartBtn />
         <Time />
       </div>
-      <div className="relative">
+      <div ref={divRef} className="relative">
         {showSelectionBox && (
           <div
-            className="absolute bg-base-100 p-2 m-8 rounded"
-            style={{ top: `${clickCoords.y}px`, left: `${clickCoords.x}px` }}
+            className="absolute bg-base-100 p-2 rounded"
+            style={{
+              top: `${selectionBoxCoords.y}px`,
+              left: `${selectionBoxCoords.x}px`,
+            }}
           >
             {characters.map((char, index) => {
               if (char.render) return <Selection key={index} {...char} />;
