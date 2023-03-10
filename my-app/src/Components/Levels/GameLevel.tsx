@@ -32,7 +32,7 @@ const GameLevel = (data: any) => {
   // const [currentTime, setCurrentTime] = useState(leveldata.current);
   // const [userBest, setUserBest] = useState(leveldata.userBest);
 
-  console.log(timeData);
+  console.log();
 
   const [showSelectionBox, setShowSelectionBox] = useState(false);
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
@@ -106,7 +106,7 @@ const GameLevel = (data: any) => {
         )}
         <img
           ref={imageRef}
-          src="levels/level-1.jpg"
+          src={`levels/level-${level.name.slice(-1)}.jpg`}
           className="rounded lg:w-[90vw] max-lg:p-2"
           onClick={(e) => {
             handleClick(e);
