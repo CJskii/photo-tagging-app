@@ -11,6 +11,8 @@ import Selection from "./Selection";
 interface Props {
   name: string;
   render: boolean;
+  isFound: boolean;
+  updateCharacter: void;
 }
 
 interface SelectionProps extends Props {
@@ -23,6 +25,7 @@ const GameLevel = (data: any) => {
 
   const [characters, setCharacters] = useState(leveldata.characters);
   const [level, setLevel] = useState(leveldata.level);
+  const [allFound, setAllFound] = useState(false);
   // change this to fetch in Time component
   const [timeData, setTimeData] = useState({
     levelBest: { time: "00:00:54" },
@@ -34,6 +37,28 @@ const GameLevel = (data: any) => {
     setCharacters(leveldata.characters);
     setLevel(leveldata.level);
   }, [data]);
+
+  useEffect(() => {
+    const allCharactersFound = () => {
+      const filtered = characters.filter((character: any) => {
+        return character.isFound === false && character.render === true;
+      });
+      if (!filtered.length) {
+        setAllFound(true);
+      }
+    };
+    allCharactersFound();
+  }, [characters]);
+
+  const updateCharacter = (obj: any) => {
+    const char = obj.name;
+    const arr = [...characters];
+    const filtered = arr.filter((character: any) => {
+      return character.name == char;
+    });
+    filtered[0].isFound = true;
+    setCharacters(arr);
+  };
 
   const [showSelectionBox, setShowSelectionBox] = useState(false);
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
@@ -100,19 +125,24 @@ const GameLevel = (data: any) => {
                     {...char}
                     imageClickCoords={imageClickCoords}
                     setShowSelectionBox={setShowSelectionBox}
+                    updateCharacter={updateCharacter}
                   />
                 );
             })}
           </div>
         )}
-        <img
-          ref={imageRef}
-          src={`levels/level-${level.name.slice(-1)}.jpg`}
-          className="rounded lg:w-[90vw] max-lg:p-2"
-          onClick={(e) => {
-            handleClick(e);
-          }}
-        />
+        {allFound ? (
+          <div>Announce user time and display level reset button</div>
+        ) : (
+          <img
+            ref={imageRef}
+            src={`levels/level-${level.name.slice(-1)}.jpg`}
+            className="rounded lg:w-[90vw] max-lg:p-2"
+            onClick={(e) => {
+              handleClick(e);
+            }}
+          />
+        )}
       </div>
     </>
   );
