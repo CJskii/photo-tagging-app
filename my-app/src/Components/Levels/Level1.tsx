@@ -1,28 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GameLevel from "./GameLevel";
+import { getLevelData } from "../../Firebase/query";
 
 const Level1 = () => {
-  const [data, setData] = useState([
-    {
-      characters: [
-        {
-          name: "odlaw",
-          render: true,
-        },
-        { name: "waldo", render: true },
-        { name: "wizard", render: true },
-        { name: "wenda", render: false },
-      ],
-      level: { name: "Level 1" },
-      current: { time: "00:01:23" },
-      userBest: { time: "00:03:55" },
-      levelBest: { time: "00:00:54" },
-    },
-  ]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const levelData: any = await getLevelData("level1");
+      setData(levelData);
+      setLoading(false);
+      console.log("Data loaded");
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-4 py-8 bg-primary">
-      <GameLevel data={data} />
+      {loading ? <h1>LOADING</h1> : <GameLevel data={data} />}
     </div>
   );
 };

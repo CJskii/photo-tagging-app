@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   calculateImageCoords,
   calculateContainerCoords,
@@ -19,20 +19,21 @@ interface SelectionProps extends Props {
 }
 
 const GameLevel = (data: any) => {
-  const leveldata = data.data[0];
+  const leveldata = data.data;
 
   const [characters, setCharacters] = useState(leveldata.characters);
   const [level, setLevel] = useState(leveldata.level);
+  // change this to fetch in Time component
   const [timeData, setTimeData] = useState({
-    levelBest: leveldata.levelBest,
-    currentTime: leveldata.current,
-    userBest: leveldata.userBest,
+    levelBest: { time: "00:00:54" },
+    currentTime: { time: "00:00:54" },
+    userBest: { time: "00:00:54" },
   });
-  // const [levelBest, setLevelBest] = useState(leveldata.levelBest);
-  // const [currentTime, setCurrentTime] = useState(leveldata.current);
-  // const [userBest, setUserBest] = useState(leveldata.userBest);
 
-  console.log();
+  useEffect(() => {
+    setCharacters(leveldata.characters);
+    setLevel(leveldata.level);
+  }, [data]);
 
   const [showSelectionBox, setShowSelectionBox] = useState(false);
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
