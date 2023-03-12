@@ -18,7 +18,7 @@ const Level1 = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center gap-4 py-8 bg-primary">
+    <div className="w-full min-h-[92vh] flex flex-col justify-start items-center gap-4 py-8 bg-primary">
       {loading ? <h1>LOADING</h1> : <GameLevel data={data} />}
     </div>
   );

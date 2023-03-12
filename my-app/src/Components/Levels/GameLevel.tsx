@@ -8,6 +8,7 @@ import Time from "../Time";
 import RestartBtn from "../RestartBtn";
 import Selection from "./Selection";
 import { getValidationData } from "../../Firebase/query";
+import GameEnded from "./GameEnded";
 
 interface Props {
   name: string;
@@ -33,6 +34,7 @@ const GameLevel = (data: any) => {
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
   const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
   const [validSelections, setValidSelections] = useState([]);
+  const [userName, setUserName] = useState("");
   // change this to fetch in Time component
   const [timeData, setTimeData] = useState({
     levelBest: { time: "00:00:54" },
@@ -138,7 +140,7 @@ const GameLevel = (data: any) => {
             })}
           </div>
         </div>
-        <RestartBtn />
+        {allFound ? <RestartBtn /> : null}
         <Time
           currentTime={timeData.currentTime}
           levelBest={timeData.levelBest}
@@ -170,7 +172,7 @@ const GameLevel = (data: any) => {
           </div>
         )}
         {allFound ? (
-          <div>Announce user time and display level reset button</div>
+          <GameEnded />
         ) : (
           <img
             ref={imageRef}
