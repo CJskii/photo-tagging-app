@@ -5,7 +5,6 @@ interface TimeProps {
 }
 
 const Time = ({ currentTime, levelBest, userBest }: TimeProps) => {
-  console.log(currentTime);
   return (
     <div className="flex flex-col justify-center items-end px-4">
       <div className="text-xl font-bold">

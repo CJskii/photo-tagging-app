@@ -1,28 +1,32 @@
 import db from "../Firebase/init";
 import { addDoc, collection, getDocs, setDoc, doc } from "firebase/firestore";
-import { query, where } from "firebase/firestore";
-
-const level = "level1";
-const arr: any = [];
 
 const addDataToFirestore = async () => {
   const data = [
     {
-      characters: [
+      Odlaw: [
         {
-          name: "odlaw",
-          render: true,
+          x: { min: 242, max: 255 },
+          y: { min: 364, max: 384 },
         },
-        { name: "waldo", render: true },
-        { name: "wizard", render: true },
-        { name: "wenda", render: false },
       ],
-      level: { name: "Level 1" },
-      levelBest: { time: "00:00:54" },
+      Waldo: [
+        {
+          x: { min: 532, max: 556 },
+          y: { min: 358, max: 395 },
+        },
+      ],
+      Wizard: [
+        {
+          x: { min: 628, max: 652 },
+          y: { min: 357, max: 408 },
+        },
+      ],
     },
   ];
+
   if (data && data.length > 0) {
-    const collectionRef = collection(db, "level1");
+    const collectionRef = collection(db, "Level 1");
     await addDoc(collectionRef, data[0]);
   } else {
     console.log("No data to add");
@@ -31,6 +35,17 @@ const addDataToFirestore = async () => {
 
 const getLevelData = async (level: string) => {
   const querySnapshot = await getDocs(collection(db, "level1"));
+  let obj;
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    //console.log(doc.id, " => ", doc.data());
+    obj = doc.data();
+  });
+  return obj;
+};
+
+const getValidationData = async (level: string) => {
+  const querySnapshot = await getDocs(collection(db, level));
   let obj;
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
@@ -63,4 +78,10 @@ const getData = async () => {
   });
 };
 
-export { addData, getData, getLevelData, addDataToFirestore };
+export {
+  addData,
+  getData,
+  getLevelData,
+  addDataToFirestore,
+  getValidationData,
+};
