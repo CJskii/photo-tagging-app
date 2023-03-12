@@ -7,12 +7,14 @@ import PreviewIcons from "./PreviewIcons";
 import Time from "../Time";
 import RestartBtn from "../RestartBtn";
 import Selection from "./Selection";
+import { getValidationData } from "../../Firebase/query";
 
 interface Props {
   name: string;
   render: boolean;
   isFound: boolean;
   updateCharacter: void;
+  validateSelection: void;
 }
 
 interface SelectionProps extends Props {
@@ -23,15 +25,22 @@ interface SelectionProps extends Props {
 const GameLevel = (data: any) => {
   const leveldata = data.data;
 
+  // ________ STATES ___________
   const [characters, setCharacters] = useState(leveldata.characters);
   const [level, setLevel] = useState(leveldata.level);
   const [allFound, setAllFound] = useState(false);
+  const [showSelectionBox, setShowSelectionBox] = useState(false);
+  const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
+  const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
+  const [validSelections, setValidSelections] = useState([]);
   // change this to fetch in Time component
   const [timeData, setTimeData] = useState({
     levelBest: { time: "00:00:54" },
     currentTime: { time: "00:00:54" },
     userBest: { time: "00:00:54" },
   });
+
+  // ________ HOOKS ___________
 
   useEffect(() => {
     setCharacters(leveldata.characters);
@@ -50,22 +59,21 @@ const GameLevel = (data: any) => {
     allCharactersFound();
   }, [characters]);
 
-  const updateCharacter = (obj: any) => {
-    const char = obj.name;
-    const arr = [...characters];
-    const filtered = arr.filter((character: any) => {
-      return character.name == char;
-    });
-    filtered[0].isFound = true;
-    setCharacters(arr);
-  };
+  useEffect(() => {
+    const getLevelValidationData = async () => {
+      if (!validSelections.length && level.name) {
+        const data = await getValidationData(level.name);
+        if (data) return setValidSelections(data);
+      }
+    };
 
-  const [showSelectionBox, setShowSelectionBox] = useState(false);
-  const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
-  const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
+    getLevelValidationData();
+  }, [level]);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
+
+  // ________ FUNCTIONS ___________
 
   const handleClick = (e: React.MouseEvent<HTMLImageElement>) => {
     const imageCoords = getImageClickCoords(e);
@@ -85,6 +93,35 @@ const GameLevel = (data: any) => {
   const getSelectionBoxCoords = (e: React.MouseEvent<HTMLDivElement>) => {
     const div = divRef.current;
     if (div) return calculateContainerCoords(div, e);
+  };
+
+  const updateCharacter = (obj: any) => {
+    const char = obj.name;
+    const arr = [...characters];
+    const filtered = arr.filter((character: any) => {
+      return character.name == char;
+    });
+    filtered[0].isFound = true;
+    setCharacters(arr);
+  };
+
+  const validateSelection = async (obj: any) => {
+    const characterName = obj.userSelection;
+    const coords = obj.selectedCoords;
+    const characterSelected = validSelections[characterName] as Array<any>;
+
+    const filteredSelections = characterSelected.filter((selection: any) => {
+      return (
+        coords.x >= selection.x.min &&
+        coords.x <= selection.x.max &&
+        coords.y >= selection.y.min &&
+        coords.y <= selection.y.max
+      );
+    });
+
+    if (filteredSelections.length) {
+      return true;
+    } else return false;
   };
 
   return (
@@ -126,6 +163,7 @@ const GameLevel = (data: any) => {
                     imageClickCoords={imageClickCoords}
                     setShowSelectionBox={setShowSelectionBox}
                     updateCharacter={updateCharacter}
+                    validateSelection={validateSelection}
                   />
                 );
             })}

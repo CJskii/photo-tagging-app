@@ -5,10 +5,11 @@ import { getLevelData } from "../../Firebase/query";
 const Level1 = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const level = "level1";
 
   useEffect(() => {
     const fetchData = async () => {
-      const levelData: any = await getLevelData("level1");
+      const levelData: any = await getLevelData(level);
       setData(levelData);
       setLoading(false);
       console.log("Data loaded");

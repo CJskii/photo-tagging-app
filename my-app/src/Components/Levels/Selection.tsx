@@ -7,28 +7,28 @@ interface Props {
   imageClickCoords: object;
   setShowSelectionBox: (showSelectionBox: boolean) => void;
   updateCharacter: (obj: object) => void;
+  validateSelection: any;
 }
 
 const Selection = (char: Props) => {
   const [characterFound, setCharacterFound] = useState(char.isFound);
-
   useEffect(() => {
     setCharacterFound(char.isFound);
   }, [char.isFound]);
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleClick = () => {
-    //console.log(char);
+  const handleClick = async () => {
     let userSelection = ref.current?.textContent;
     const selectedCoords = char.imageClickCoords;
     char.setShowSelectionBox(false);
-
-    console.log({ userSelection, selectedCoords });
-    // pass userSelection and selectedCoords to backend for validation
-
-    // if click is found - update character data
-    char.updateCharacter(char);
+    const isValid = await char.validateSelection({
+      userSelection,
+      selectedCoords,
+    });
+    if (isValid) {
+      char.updateCharacter(char);
+    }
   };
 
   return (
