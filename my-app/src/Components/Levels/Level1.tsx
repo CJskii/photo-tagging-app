@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import GameLevel from "./GameLevel";
 import { getLevelData } from "../../Firebase/query";
+import Spinner from "../Spinner";
 
 const Level1 = () => {
   const [data, setData] = useState([]);
@@ -19,7 +20,7 @@ const Level1 = () => {
 
   return (
     <div className="w-full min-h-[92vh] flex flex-col justify-start items-center gap-4 py-8 bg-primary">
-      {loading ? <h1>LOADING</h1> : <GameLevel data={data} />}
+      {loading ? <Spinner /> : <GameLevel data={data} />}
     </div>
   );
 };
