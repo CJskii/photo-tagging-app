@@ -34,7 +34,8 @@ const GameLevel = (data: any) => {
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
   const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
   const [validSelections, setValidSelections] = useState([]);
-  const [userName, setUserName] = useState("");
+  const [time, setTime] = useState(0);
+
   // change this to fetch in Time component
   const [timeData, setTimeData] = useState({
     levelBest: { time: "00:00:54" },
@@ -58,6 +59,7 @@ const GameLevel = (data: any) => {
         setAllFound(true);
       }
     };
+
     allCharactersFound();
   }, [characters]);
 
@@ -141,11 +143,7 @@ const GameLevel = (data: any) => {
           </div>
         </div>
         {allFound ? <RestartBtn /> : null}
-        <Time
-          currentTime={timeData.currentTime}
-          levelBest={timeData.levelBest}
-          userBest={timeData.userBest}
-        />
+        <Time setTime={setTime} allFound={allFound} />
       </div>
       <div ref={divRef} className="relative">
         {showSelectionBox && (

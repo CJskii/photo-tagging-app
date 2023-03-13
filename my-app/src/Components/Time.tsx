@@ -1,17 +1,34 @@
-interface TimeProps {
-  currentTime: { time: string };
-  levelBest: { time: string };
-  userBest: { time: string };
+import React, { useEffect, useState, useContext } from "react";
+import formatTime from "./Levels/HelperFunctions/formatTime";
+import { UsernameContext } from "../App";
+
+interface Props {
+  allFound: boolean;
+  setTime: (time: number) => void;
 }
 
-const Time = ({ currentTime, levelBest, userBest }: TimeProps) => {
+const Time = ({ setTime, allFound }: Props) => {
+  const [localTime, setLocalTime] = useState(0);
+  const [userName, setUserName] = useContext(UsernameContext);
+
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      if (!allFound) {
+        setLocalTime(localTime + 1);
+      } else {
+        setTime(localTime);
+      }
+    }, 1000);
+    return () => clearInterval(timeInterval);
+  }, [localTime]);
+
   return (
     <div className="flex flex-col justify-center items-end px-4">
       <div className="text-xl font-bold">
-        📢 Current time: {currentTime.time}
+        📢 Current time: {formatTime(localTime)}
       </div>
-      <div className="text-xl">🌟 Your best time: {userBest.time}</div>
-      <div className="text-xl">🏆 Leaderboard top: {levelBest.time}</div>
+      <div className="text-xl">🌟 Your best time: </div>
+      <div className="text-xl">🏆 Leaderboard top: </div>
     </div>
   );
 };
