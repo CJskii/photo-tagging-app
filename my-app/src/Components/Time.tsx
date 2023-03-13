@@ -24,9 +24,11 @@ const Time = ({ setTime, allFound }: Props) => {
 
   return (
     <div className="flex flex-col justify-center items-end px-4">
-      <div className="text-xl font-bold">
-        📢 Current time: {formatTime(localTime)}
-      </div>
+      {allFound ? null : (
+        <div className="text-xl font-bold">
+          📢 Current time: {formatTime(localTime)}
+        </div>
+      )}
       <div className="text-xl">🌟 Your best time: </div>
       <div className="text-xl">🏆 Leaderboard top: </div>
     </div>
