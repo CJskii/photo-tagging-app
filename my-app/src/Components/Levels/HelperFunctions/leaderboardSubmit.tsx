@@ -1,14 +1,38 @@
+import { addLeaderboardData } from "../../../Firebase/addData";
+import { getUserData } from "../../../Firebase/getData";
 interface Props {
+  level: string;
   userName: string;
   time: number;
 }
 
-const submitToLeaderboard = ({ userName, time }: Props) => {
-  console.log({ userName, time });
-  // validate if user is already in leaderboard
-  // if !leaderboard create new record
-  // if user is already in leaderboard check if this time is better
-  // time better - update leaderboard
+interface ValidateProps {
+  userData: {
+    [key: string]: {
+      time: number;
+      timestamp: number;
+    };
+  };
+  time: number;
+  userName: string;
+}
+
+const submitToLeaderboard = async ({ level, userName, time }: Props) => {
+  const userData = await getUserData({ level, userName });
+  if (Object.keys(userData).length === 0)
+    return addLeaderboardData({ level, userName, time });
+
+  const higherScore = validateScore({ userData, userName, time });
+
+  higherScore ? addLeaderboardData({ level, userName, time }) : () => {};
+};
+
+const validateScore = ({ userData, userName, time }: ValidateProps) => {
+  const bestScore = userData[userName];
+  if (bestScore.time <= time) {
+    console.log("You already have better score");
+    return false;
+  } else return true;
 };
 
 export default submitToLeaderboard;

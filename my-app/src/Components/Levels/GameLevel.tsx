@@ -170,7 +170,7 @@ const GameLevel = ({
           </div>
         )}
         {allFound ? (
-          <GameEnded time={time} />
+          <GameEnded time={time} level={level} />
         ) : (
           <img
             ref={imageRef}

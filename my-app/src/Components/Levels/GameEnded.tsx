@@ -6,7 +6,7 @@ import formatTime from "./HelperFunctions/formatTime";
 import submitToLeaderboard from "./HelperFunctions/leaderboardSubmit";
 import Spinner from "../Spinner";
 
-const GameEnded = ({ time }: { time: number }) => {
+const GameEnded = ({ time, level }: { time: number; level: string }) => {
   const [userName, setUserName] = useContext(UsernameContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -14,13 +14,13 @@ const GameEnded = ({ time }: { time: number }) => {
     if (inputRef.current?.value.length && userName == "") {
       setUserName(inputRef.current.value);
     } else {
-      submitToLeaderboard({ userName, time });
+      submitToLeaderboard({ level, userName, time });
     }
   };
 
-  useEffect(() => {
-    userName != "" ? submitToLeaderboard({ userName, time }) : () => {};
-  }, [userName]);
+  // useEffect(() => {
+  //   userName != "" ? submitToLeaderboard({ level, userName, time }) : () => {};
+  // }, [userName]);
 
   return (
     <>
