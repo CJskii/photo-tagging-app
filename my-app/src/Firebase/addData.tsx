@@ -1,5 +1,11 @@
 import db from "../Firebase/init";
-import { addDoc, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { collection, setDoc, doc } from "firebase/firestore";
+
+interface LeaderboardProps {
+  level: string;
+  time: number;
+  userName: string;
+}
 
 // Character data
 export const addCharacterData = async () => {
@@ -60,15 +66,19 @@ export const addValidationData = async () => {
 };
 
 // Leaderboard data
-export const addLeaderboardData = async () => {
-  const leaderboardRef = collection(db, "Level 1");
+export const addLeaderboardData = async ({
+  level,
+  time,
+  userName,
+}: LeaderboardProps) => {
+  const leaderboardRef = collection(db, level);
   const levelRef = doc(leaderboardRef, "Leaderboard");
-  const userRef = doc(collection(levelRef, "Users"), "Marek");
-  const time = 5;
+  const userRef = doc(collection(levelRef, "Users"), userName);
 
   // Add the user's score and timestamp to the database
   await setDoc(userRef, {
     time,
     timestamp: Date.now(),
   });
+  console.log("data submitted");
 };

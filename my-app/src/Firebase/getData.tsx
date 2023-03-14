@@ -1,5 +1,5 @@
 import db from "../Firebase/init";
-import { addDoc, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { collection, getDocs, doc } from "firebase/firestore";
 
 // Get main level data
 export const getLevelData = async (level: string) => {
@@ -20,6 +20,27 @@ export const getLeaderboardData = async (level: string) => {
   const userSnapshot = await getDocs(userCollectionRef);
   userSnapshot.forEach((userDoc) => {
     obj[userDoc.id] = userDoc.data();
+  });
+
+  return obj;
+};
+
+// Get level leaderboard data
+export const getUserData = async ({
+  level,
+  userName,
+}: {
+  level: string;
+  userName: string;
+}) => {
+  const levelRef = doc(db, "Level 1", "Leaderboard");
+  const userCollectionRef = collection(levelRef, "Users");
+  let obj: { [key: string]: any } = {};
+  const userSnapshot = await getDocs(userCollectionRef);
+  userSnapshot.forEach((userDoc) => {
+    if (userDoc.id == userName) {
+      obj[userDoc.id] = userDoc.data();
+    } else return null;
   });
 
   return obj;
