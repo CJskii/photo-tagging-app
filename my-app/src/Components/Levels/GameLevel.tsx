@@ -7,7 +7,6 @@ import PreviewIcons from "./PreviewIcons";
 import Time from "../Time";
 import RestartBtn from "../RestartBtn";
 import Selection from "./Selection";
-import { getValidationData } from "../../Firebase/query";
 import GameEnded from "./GameEnded";
 
 interface Props {
