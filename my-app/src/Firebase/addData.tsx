@@ -9,10 +9,11 @@ export const addCharacterData = async () => {
         {
           name: "odlaw",
           render: true,
+          isFound: false,
         },
-        { name: "waldo", render: true },
-        { name: "wizard", render: true },
-        { name: "wenda", render: false },
+        { name: "waldo", render: true, isFound: false },
+        { name: "wizard", render: true, isFound: false },
+        { name: "wenda", render: false, isFound: false },
       ],
     },
   ];

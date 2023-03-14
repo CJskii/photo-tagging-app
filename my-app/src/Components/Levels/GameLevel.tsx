@@ -8,6 +8,7 @@ import Time from "../Time";
 import RestartBtn from "../RestartBtn";
 import Selection from "./Selection";
 import GameEnded from "./GameEnded";
+import { addCharacterData } from "../../Firebase/addData";
 
 interface Props {
   name: string;
@@ -22,17 +23,26 @@ interface SelectionProps extends Props {
   setShowSelectionBox: boolean;
 }
 
-const GameLevel = (data: any) => {
-  const leveldata = data.data;
+interface LevelProps {
+  renderData: Props[];
+  validationData: object;
+  leaderboardData: object;
+  level: string;
+}
 
+const GameLevel = ({
+  renderData,
+  validationData,
+  leaderboardData,
+  level,
+}: LevelProps) => {
   // ________ STATES ___________
-  const [characters, setCharacters] = useState(leveldata.characters);
-  const [level, setLevel] = useState(leveldata.level);
+  const [characters, setCharacters] = useState(renderData);
   const [allFound, setAllFound] = useState(false);
   const [showSelectionBox, setShowSelectionBox] = useState(false);
   const [imageClickCoords, setImageClickCoords] = useState({ x: 0, y: 0 });
   const [selectionBoxCoords, setSelectionBoxCoords] = useState({ x: 0, y: 0 });
-  const [validSelections, setValidSelections] = useState([]);
+  const [validSelections, setValidSelections] = useState(validationData);
   const [time, setTime] = useState(0);
 
   // change this to fetch in Time component
@@ -45,9 +55,8 @@ const GameLevel = (data: any) => {
   // ________ HOOKS ___________
 
   useEffect(() => {
-    setCharacters(leveldata.characters);
-    setLevel(leveldata.level);
-  }, [data]);
+    setCharacters(renderData);
+  }, [renderData]);
 
   useEffect(() => {
     const allCharactersFound = () => {
@@ -61,17 +70,6 @@ const GameLevel = (data: any) => {
 
     allCharactersFound();
   }, [characters]);
-
-  useEffect(() => {
-    const getLevelValidationData = async () => {
-      if (!validSelections.length && level.name) {
-        const data = await getValidationData(level.name);
-        if (data) return setValidSelections(data);
-      }
-    };
-
-    getLevelValidationData();
-  }, [level]);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
@@ -109,9 +107,12 @@ const GameLevel = (data: any) => {
   };
 
   const validateSelection = async (obj: any) => {
+    console.log(validSelections);
     const characterName = obj.userSelection;
     const coords = obj.selectedCoords;
-    const characterSelected = validSelections[characterName] as Array<any>;
+    const characterSelected = (validSelections as Array<object>)[
+      characterName
+    ] as Array<object>;
 
     const filteredSelections = characterSelected.filter((selection: any) => {
       return (
@@ -129,7 +130,7 @@ const GameLevel = (data: any) => {
 
   return (
     <>
-      <h1 className="text-5xl lg:pr-8">{level.name}</h1>
+      <h1 className="text-5xl lg:pr-8">{level}</h1>
       <div className="flex justify-between items-center lg:w-[90vw]">
         <div className="flex flex-col justify-center items-start gap-4 w-content px-4">
           <h2 className="font-bold text-2xl">Characters to find: </h2>
@@ -173,7 +174,7 @@ const GameLevel = (data: any) => {
         ) : (
           <img
             ref={imageRef}
-            src={`levels/level-${level.name.slice(-1)}.jpg`}
+            src={`levels/level-${level.slice(-1)}.jpg`}
             className="rounded lg:w-[90vw] max-lg:p-2"
             onClick={(e) => {
               handleClick(e);

@@ -1,20 +1,10 @@
-import { getLevelData, addDataToFirestore } from "../Firebase/query";
-
 const RestartBtn = () => {
   return (
     <>
-      <button
-        className="btn bg-base-200 hover:bg-secondary hover:animate-bounce"
-        onClick={addDataToFirestore}
-      >
+      <button className="btn bg-base-200 hover:bg-secondary hover:animate-bounce">
         add
       </button>
-      <button
-        className="btn bg-base-200 hover:bg-secondary hover:animate-bounce"
-        onClick={() => {
-          getLevelData("level1");
-        }}
-      >
+      <button className="btn bg-base-200 hover:bg-secondary hover:animate-bounce">
         query2
       </button>
     </>

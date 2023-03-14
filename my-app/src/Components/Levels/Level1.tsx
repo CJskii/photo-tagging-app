@@ -3,27 +3,6 @@ import GameLevel from "./GameLevel";
 import Spinner from "../Spinner";
 import { getLevelData, getLeaderboardData } from "../../Firebase/getData";
 
-export const renderDataContext = createContext<{
-  renderData: { [key: string]: any };
-  setRenderData: React.Dispatch<React.SetStateAction<object>>;
-}>({ renderData: {}, setRenderData: () => {} });
-
-export const validationDataContext = createContext<{
-  validationData: { [key: string]: object };
-  setValidationData: React.Dispatch<React.SetStateAction<object>>;
-}>({
-  validationData: {},
-  setValidationData: () => {},
-});
-
-export const leaderboardContext = createContext<{
-  leaderboardData: { [key: string]: any };
-  setLevel: React.Dispatch<React.SetStateAction<object>>;
-}>({
-  leaderboardData: {},
-  setLevel: () => {},
-});
-
 interface Data {
   [key: string]: any;
 }
@@ -49,19 +28,18 @@ const Level1 = () => {
   }, []);
 
   return (
-    <renderDataContext.Provider value={{ renderData, setRenderData }}>
-      <validationDataContext.Provider
-        value={{ validationData, setValidationData }}
-      >
-        <leaderboardContext.Provider
-          value={{ leaderboardData, setLevel: setLeaderboardData }}
-        >
-          <div className="w-full min-h-[92vh] flex flex-col justify-start items-center gap-4 py-8 bg-primary">
-            {/* {loading ? <Spinner /> : <GameLevel data={data} />} */}
-          </div>
-        </leaderboardContext.Provider>
-      </validationDataContext.Provider>
-    </renderDataContext.Provider>
+    <div className="w-full min-h-[92vh] flex flex-col justify-start items-center gap-4 py-8 bg-primary">
+      {loading ? (
+        <Spinner />
+      ) : (
+        <GameLevel
+          renderData={renderData.data}
+          validationData={validationData}
+          leaderboardData={leaderboardData}
+          level={level}
+        />
+      )}
+    </div>
   );
 };
 
