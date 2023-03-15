@@ -8,7 +8,6 @@ import Time from "../Time";
 import RestartBtn from "../RestartBtn";
 import Selection from "./Selection";
 import GameEnded from "./GameEnded";
-import { addCharacterData } from "../../Firebase/addData";
 
 interface Props {
   name: string;

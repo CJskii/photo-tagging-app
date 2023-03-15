@@ -1,10 +1,18 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import GameLevel from "./GameLevel";
 import Spinner from "../Spinner";
-import { getLevelData, getLeaderboardData } from "../../Firebase/getData";
+import fetchData from "./HelperFunctions/fetchLevelData";
 
 interface Data {
   [key: string]: any;
+}
+
+interface FetchProps {
+  setRenderData: (renderData: object) => void;
+  setValidationData: (validationData: object) => void;
+  setLeaderboardData: (leaderboardData: object) => void;
+  setLoading: (loading: boolean) => void;
+  level: string;
 }
 
 const Level1 = () => {
@@ -15,16 +23,13 @@ const Level1 = () => {
   const level = "Level 1";
 
   useEffect(() => {
-    const fetchData = async () => {
-      const levelData: any = await getLevelData(level);
-      const leaderboardData = await getLeaderboardData(level);
-      setRenderData(levelData.Characters);
-      setValidationData(levelData.Validation);
-      setLeaderboardData(leaderboardData);
-      setLoading(false);
-      console.log("Data loaded");
-    };
-    fetchData();
+    fetchData({
+      setRenderData,
+      setValidationData,
+      setLeaderboardData,
+      setLoading,
+      level,
+    });
   }, []);
 
   return (
