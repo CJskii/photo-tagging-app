@@ -1,20 +1,26 @@
 import React, { useEffect, useState, useContext } from "react";
 import formatTime from "./Levels/HelperFunctions/formatTime";
 import { UsernameContext } from "../App";
-import { getUserData } from "../Firebase/getData";
+import { getUserData, getLeaderboardData } from "../Firebase/getData";
 
 interface Props {
   time: number;
   allFound: boolean;
   setTime: (time: number) => void;
   level: string;
+  leaderboardData: {
+    [key: string]: {
+      time: number;
+      timestamp: number;
+    };
+  };
 }
 
-const Time = ({ time, setTime, allFound, level }: Props) => {
+const Time = ({ time, setTime, allFound, level, leaderboardData }: Props) => {
   const [localTime, setLocalTime] = useState(0);
   const [userName, setUserName] = useContext(UsernameContext);
-  const [bestUserTime, setBestUserTime] = useState(null);
-  const [bestLevelTime, setBestLevelTime] = useState(null);
+  const [bestUserTime, setBestUserTime] = useState<number | null>(null);
+  const [bestLevelTime, setBestLevelTime] = useState<number | null>(null);
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
@@ -29,15 +35,24 @@ const Time = ({ time, setTime, allFound, level }: Props) => {
 
   useEffect(() => {
     userBest();
-  }, []);
+    levelBest();
+  }, [leaderboardData]);
 
   const userBest = async () => {
     if (userName != "") {
       const userData = await getUserData({ level, userName });
       Object.keys(userData).length === 0
-        ? setBestUserTime(null)
+        ? () => {}
         : setBestUserTime(userData[userName].time);
     }
+  };
+
+  const levelBest = async () => {
+    let bestScore: number = Number.MAX_SAFE_INTEGER;
+    Object.values(leaderboardData).forEach((user) => {
+      user.time < bestScore ? (bestScore = user.time) : () => {};
+    });
+    setBestLevelTime(bestScore);
   };
 
   return (
@@ -53,7 +68,11 @@ const Time = ({ time, setTime, allFound, level }: Props) => {
         </div>
       ) : null}
 
-      <div className="text-xl">🏆 Leaderboard top: </div>
+      {bestLevelTime ? (
+        <div className="text-xl">
+          🏆 Leaderboard top: {formatTime(bestLevelTime)}
+        </div>
+      ) : null}
     </div>
   );
 };

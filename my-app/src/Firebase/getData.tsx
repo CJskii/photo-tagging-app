@@ -14,7 +14,7 @@ export const getLevelData = async (level: string) => {
 
 // Get level leaderboard data
 export const getLeaderboardData = async (level: string) => {
-  const levelRef = doc(db, "Level 1", "Leaderboard");
+  const levelRef = doc(db, level, "Leaderboard");
   const userCollectionRef = collection(levelRef, "Users");
   let obj: { [key: string]: any } = {};
   const userSnapshot = await getDocs(userCollectionRef);

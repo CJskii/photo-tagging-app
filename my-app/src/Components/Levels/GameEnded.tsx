@@ -30,17 +30,27 @@ const GameEnded = ({ time, level }: { time: number; level: string }) => {
           <p className="text-2xl"> You have found all characters 💪</p>
           <p className="text-2xl py-4">Your time is: {formatTime(time)}</p>
           <p className="text-xl">
-            You can{" "}
-            <span className="underline cursor-pointer text-orange-300 hover:text-base-300">
-              submit
-            </span>{" "}
-            your name to leaderboard, or{" "}
-            <Link to="/game">
-              <span className="underline cursor-pointer text-orange-300 hover:text-base-300 hover:animate-pulse ">
-                return
-              </span>{" "}
-            </Link>
-            to select a different level
+            {userName !== "" ? (
+              <Link to="/game">
+                <span className="underline cursor-pointer text-orange-300 hover:text-base-300 hover:animate-pulse ">
+                  return to select a different level
+                </span>{" "}
+              </Link>
+            ) : (
+              <>
+                You can{" "}
+                <span className="underline cursor-pointer text-orange-300 hover:text-base-300">
+                  submit
+                </span>{" "}
+                your name to the leaderboard, or{" "}
+                <Link to="/game">
+                  <span className="underline cursor-pointer text-orange-300 hover:text-base-300 hover:animate-pulse ">
+                    return
+                  </span>{" "}
+                </Link>
+                <>to select a different level</>
+              </>
+            )}
           </p>
           {!userName ? (
             <>

@@ -26,7 +26,12 @@ interface SelectionProps extends Props {
 interface LevelProps {
   renderData: Props[];
   validationData: object;
-  leaderboardData: object;
+  leaderboardData: {
+    [key: string]: {
+      time: number;
+      timestamp: number;
+    };
+  };
   level: string;
 }
 
@@ -143,7 +148,13 @@ const GameLevel = ({
           </div>
         </div>
         {allFound ? <RestartBtn /> : null}
-        <Time setTime={setTime} allFound={allFound} level={level} />
+        <Time
+          time={time}
+          setTime={setTime}
+          allFound={allFound}
+          level={level}
+          leaderboardData={leaderboardData}
+        />
       </div>
       <div ref={divRef} className="relative">
         {showSelectionBox && (
