@@ -18,10 +18,6 @@ const GameEnded = ({ time, level }: { time: number; level: string }) => {
     }
   };
 
-  // useEffect(() => {
-  //   userName != "" ? submitToLeaderboard({ level, userName, time }) : () => {};
-  // }, [userName]);
-
   return (
     <>
       {time == 0 ? (
@@ -61,7 +57,7 @@ const GameEnded = ({ time, level }: { time: number; level: string }) => {
             className="btn bg-base-200 hover:bg-secondary hover:animate-bounce mt-4"
             onClick={handleSubmit}
           >
-            Submit
+            {userName != "" ? "Submit to leaderboard" : "Submit username"}
           </button>
         </div>
       )}

@@ -33,7 +33,7 @@ export const getUserData = async ({
   level: string;
   userName: string;
 }) => {
-  const levelRef = doc(db, "Level 1", "Leaderboard");
+  const levelRef = doc(db, level, "Leaderboard");
   const userCollectionRef = collection(levelRef, "Users");
   let obj: { [key: string]: any } = {};
   const userSnapshot = await getDocs(userCollectionRef);
