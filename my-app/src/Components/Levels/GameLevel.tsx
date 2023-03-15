@@ -143,7 +143,7 @@ const GameLevel = ({
           </div>
         </div>
         {allFound ? <RestartBtn /> : null}
-        <Time setTime={setTime} allFound={allFound} />
+        <Time setTime={setTime} allFound={allFound} level={level} />
       </div>
       <div ref={divRef} className="relative">
         {showSelectionBox && (
