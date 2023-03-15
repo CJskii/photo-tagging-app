@@ -12,7 +12,7 @@ const Level1 = () => {
   const [validationData, setValidationData] = useState<Data>({});
   const [leaderboardData, setLeaderboardData] = useState<Data>({});
   const [loading, setLoading] = useState(true);
-  const level = "Level 1";
+  const level = "Level 2";
 
   useEffect(() => {
     fetchData({
