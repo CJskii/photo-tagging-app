@@ -33,7 +33,7 @@ const GameEnded = ({ time, level }: { time: number; level: string }) => {
             {userName !== "" ? (
               <Link to="/game">
                 <span className="underline cursor-pointer text-orange-300 hover:text-base-300 hover:animate-pulse ">
-                  return to select a different level
+                  Return to select a different level
                 </span>{" "}
               </Link>
             ) : (

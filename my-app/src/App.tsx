@@ -7,6 +7,10 @@ import Game from "./Components/Game";
 import Leaderboard from "./Components/Leaderboard";
 import Level1 from "./Components/Levels/Level1";
 import Level2 from "./Components/Levels/Level2";
+import Level3 from "./Components/Levels/Level3";
+import Level4 from "./Components/Levels/Level4";
+import Level5 from "./Components/Levels/Level5";
+import Level6 from "./Components/Levels/Level6";
 
 export const UsernameContext = createContext<
   [string, React.Dispatch<React.SetStateAction<string>>]
@@ -32,11 +36,10 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/level1" element={<Level1 />} />
             <Route path="/level2" element={<Level2 />} />
-            {/* 
-          <Route path="/level3" element={<Level3 />} />
-          <Route path="/level4" element={<Level4 />} />
-          <Route path="/level5" element={<Level5 />} />
-          <Route path="/level6" element={<Level6 />} /> */}
+            <Route path="/level3" element={<Level3 />} />
+            <Route path="/level4" element={<Level4 />} />
+            <Route path="/level5" element={<Level5 />} />
+            <Route path="/level6" element={<Level6 />} />
           </Routes>
         </UsernameContext.Provider>
       </section>

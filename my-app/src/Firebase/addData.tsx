@@ -14,16 +14,16 @@ export const addCharacterData = async () => {
       data: [
         {
           name: "odlaw",
-          render: true,
+          render: false,
           isFound: false,
         },
         { name: "waldo", render: true, isFound: false },
-        { name: "wizard", render: true, isFound: false },
+        { name: "wizard", render: false, isFound: false },
         { name: "wenda", render: false, isFound: false },
       ],
     },
   ];
-  const collectionRef = collection(db, "Level 1");
+  const collectionRef = collection(db, "Level 6");
   const charactersRef = doc(collectionRef, "Characters");
   if (data && data.length > 0) {
     await setDoc(charactersRef, data[0]);
@@ -36,27 +36,15 @@ export const addCharacterData = async () => {
 export const addValidationData = async () => {
   const data = [
     {
-      Odlaw: [
-        {
-          x: { min: 242, max: 255 },
-          y: { min: 364, max: 384 },
-        },
-      ],
       Waldo: [
         {
-          x: { min: 532, max: 556 },
-          y: { min: 358, max: 395 },
-        },
-      ],
-      Wizard: [
-        {
-          x: { min: 628, max: 652 },
-          y: { min: 357, max: 408 },
+          x: { min: 265, max: 309 },
+          y: { min: 1935, max: 2095 },
         },
       ],
     },
   ];
-  const collectionRef = collection(db, "Level 1");
+  const collectionRef = collection(db, "Level 6"); // change level
   const charactersRef = doc(collectionRef, "Validation");
   if (data && data.length > 0) {
     await setDoc(charactersRef, data[0]);

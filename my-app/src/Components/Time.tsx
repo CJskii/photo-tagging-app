@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import formatTime from "./Levels/HelperFunctions/formatTime";
 import { UsernameContext } from "../App";
-import { getUserData, getLeaderboardData } from "../Firebase/getData";
+import { getUserData } from "../Firebase/getData";
 
 interface Props {
   time: number;
@@ -49,10 +49,13 @@ const Time = ({ time, setTime, allFound, level, leaderboardData }: Props) => {
 
   const levelBest = async () => {
     let bestScore: number = Number.MAX_SAFE_INTEGER;
-    Object.values(leaderboardData).forEach((user) => {
-      user.time < bestScore ? (bestScore = user.time) : () => {};
-    });
-    setBestLevelTime(bestScore);
+    if (Object.keys(leaderboardData).length > 0) {
+      Object.values(leaderboardData).forEach((user) => {
+        user.time < bestScore ? (bestScore = user.time) : () => {};
+      });
+
+      setBestLevelTime(bestScore);
+    }
   };
 
   return (
