@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getLeaderboardData } from "../Firebase/getData";
+import formatTime from "./Levels/HelperFunctions/formatTime";
+import formatDate from "./Levels/HelperFunctions/formatDate";
 
 const Leaderboard = () => {
   const [currentLevel, setCurrentLevel] = useState<number>(1);
   const [previousLevel, setPreviousLevel] = useState<number>(0);
-  const [nextLevel, setNextLevel] = useState(2);
+  const [nextLevel, setNextLevel] = useState<number>(2);
   const [sortedData, setSortedData] = useState<object[]>([]);
-
-  useEffect(() => {
-    console.log(`Level: ${currentLevel}`);
-  }, [currentLevel]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,8 +15,7 @@ const Leaderboard = () => {
       const sortedData = Object.entries(data)
         .sort(([, a], [, b]) => a.time - b.time)
         .map(([key, value]) => ({ name: key, ...value }));
-
-      Object.keys(data).length > 0 ? setSortedData(sortedData) : () => {};
+      setSortedData(sortedData);
     };
 
     fetchData();
@@ -68,25 +65,23 @@ const Leaderboard = () => {
               <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Score</th>
-                <th>Date</th>
+                <th>Time</th>
+                <th className="text-right">Date</th>
               </tr>
             </thead>
             <tbody>
-              {sortedData ? (
-                sortedData.map((placement: any, index) => {
-                  return (
-                    <tr key={index}>
-                      <th>{index + 1}</th>
-                      <td>{placement.name}</td>
-                      <td>{placement.time}</td>
-                      <td>{placement.timestamp}</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <>No data to display... </>
-              )}
+              {sortedData
+                ? sortedData.map((placement: any, index) => {
+                    return (
+                      <tr key={index}>
+                        <th>{index + 1}</th>
+                        <td>{placement.name}</td>
+                        <td>{formatTime(placement.time)}</td>
+                        <td>{formatDate(placement.timestamp)}</td>
+                      </tr>
+                    );
+                  })
+                : null}
             </tbody>
           </table>
         </div>
