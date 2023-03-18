@@ -1,5 +1,5 @@
 .home {
-  background-image: url(../public/waldo-bg.png);
+  background-image: url(/waldo-bg.png);
   background-size: cover;
 }
 
