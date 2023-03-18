@@ -135,8 +135,8 @@ const GameLevel = ({
   return (
     <>
       <h1 className="text-5xl lg:pr-8">{level}</h1>
-      <div className="flex justify-between items-center lg:w-[90vw]">
-        <div className="flex flex-col justify-center items-start gap-4 w-content px-4">
+      <div className="flex justify-between items-center sm:w-[90vw] max-md:flex-col max-md:gap-4">
+        <div className="flex flex-col justify-center items-start gap-4 w-content px-4 max-md:items-center">
           <h2 className="font-bold text-2xl">Characters to find: </h2>
           <div className="flex justify-center items-center gap-4 w-content">
             {characters.map((char: Props, index: number) => {
