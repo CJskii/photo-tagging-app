@@ -1,12 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Themes from "./Themes";
 
-interface NavbarProps {
-  changeTheme: (event: React.MouseEvent<HTMLSpanElement>) => void;
-}
-
-const Navbar = ({ changeTheme }: NavbarProps) => {
+const Navbar = () => {
   return (
     <div
       data-testid="navbar"
@@ -33,7 +28,6 @@ const Navbar = ({ changeTheme }: NavbarProps) => {
             </li>
           </ul>
         </div>
-        {/* <Themes changeTheme={changeTheme} /> */}
       </div>
     </div>
   );

@@ -20,14 +20,9 @@ function App() {
   const [theme, setTheme] = useState("default");
   const [userName, setUserName] = useState("");
 
-  const changeTheme = (event: React.MouseEvent<HTMLSpanElement>) => {
-    const selected = event.currentTarget.textContent?.toLowerCase();
-    setTheme(selected || "default");
-  };
-
   return (
     <div className="App bg-base-100 min-h-screen" data-theme={theme}>
-      <Navbar changeTheme={changeTheme} />
+      <Navbar />
       <section className="min-h-[92vh] home">
         <UsernameContext.Provider value={[userName, setUserName]}>
           <Routes>

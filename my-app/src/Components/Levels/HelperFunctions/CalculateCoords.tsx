@@ -9,9 +9,6 @@ export const calculateImageCoords = (
   const imageHeight = image.naturalHeight;
   const pixelX = Math.round(Math.floor((x / rect.width) * imageWidth));
   const pixelY = Math.round(Math.floor((y / rect.height) * imageHeight));
-  console.log(
-    `Clicked at (${pixelX}, ${pixelY}) in image with size (${imageWidth}, ${imageHeight})`
-  );
   return { x: pixelX, y: pixelY };
 };
 
@@ -24,10 +21,18 @@ export const calculateContainerCoords = (
   const y = e.clientY - rect.top;
   const divWidth = div.clientWidth;
   const divHeight = div.clientHeight;
-  const pixelX = Math.round(Math.floor((x / rect.width) * divWidth));
-  const pixelY = Math.round(Math.floor((y / rect.height) * divHeight));
-  console.log(
-    `Clicked at (${pixelX}, ${pixelY}) in div with size (${divWidth}, ${divHeight})`
-  );
+  let pixelX = Math.round(Math.floor((x / rect.width) * divWidth));
+  let pixelY = Math.round(Math.floor((y / rect.height) * divHeight));
+  const containerWidth = 160;
+  const containerHeight = 240;
+
+  // adjust x coordinate if it exceeds the width of the image
+  if (pixelX + containerWidth > divWidth) {
+    pixelX = Math.max(divWidth - containerWidth, 0);
+  }
+  // adjust y coordinate if it exceeds the height of the image
+  if (pixelY + containerHeight > divHeight) {
+    pixelY = Math.max(divHeight - containerHeight, 0);
+  }
   return { x: pixelX, y: pixelY };
 };

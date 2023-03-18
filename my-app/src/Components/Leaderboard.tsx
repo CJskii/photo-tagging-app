@@ -72,14 +72,17 @@ const Leaderboard = () => {
             <tbody>
               {sortedData
                 ? sortedData.map((placement: any, index) => {
-                    return (
-                      <tr key={index}>
-                        <th>{index + 1}</th>
-                        <td>{placement.name}</td>
-                        <td>{formatTime(placement.time)}</td>
-                        <td>{formatDate(placement.timestamp)}</td>
-                      </tr>
-                    );
+                    if (index < 100)
+                      return (
+                        <tr key={index}>
+                          <th>{index + 1}</th>
+                          <td>{placement.name}</td>
+                          <td>{formatTime(placement.time)}</td>
+                          <td className="text-right">
+                            {formatDate(placement.timestamp)}
+                          </td>
+                        </tr>
+                      );
                   })
                 : null}
             </tbody>

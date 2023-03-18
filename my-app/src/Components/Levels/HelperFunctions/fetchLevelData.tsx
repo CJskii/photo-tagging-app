@@ -21,7 +21,6 @@ const fetchData = async ({
   setValidationData(levelData.Validation);
   setLeaderboardData(leaderboardData);
   setLoading(false);
-  console.log("Data loaded");
 };
 
 export default fetchData;

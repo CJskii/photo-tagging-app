@@ -4,8 +4,8 @@ import "../Styles/Home.css";
 
 const Home = () => {
   return (
-    <div className="home w-full h-full flex justify-center items-start">
-      <div className="flex flex-col justify-evenly items-center h-2/5">
+    <div className="w-full h-full flex justify-center items-start">
+      <div className="flex flex-col justify-evenly items-center h-3/5 gap-8 pt-16 rounded m-2 p-4 max-md:text-center max-md:bg-[#bbbbbb99]">
         <h1
           className="text-5xl tracking-widest text-base-200"
           style={{
