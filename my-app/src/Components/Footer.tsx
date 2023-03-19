@@ -36,7 +36,7 @@ const Footer = () => {
           </svg>
         </a>
         <a
-          href="https://github.com/CJskii/shopping-cart"
+          href="https://github.com/CJskii/photo-tagging-app"
           target="_blank"
           rel="noreferrer"
         >
